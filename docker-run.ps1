@@ -18,6 +18,15 @@ else {
     docker compose down
 }
 
+# Pull images
+Write-Host "📥 Pulling base images (Postgres, Redis, Ollama)..." -ForegroundColor Cyan
+if (Get-Command "docker-compose" -ErrorAction SilentlyContinue) {
+    docker-compose pull
+}
+else {
+    docker compose pull
+}
+
 # Build and start
 Write-Host "🏗️  Building and starting services (this may take a few minutes)..." -ForegroundColor Green
 if (Get-Command "docker-compose" -ErrorAction SilentlyContinue) {
