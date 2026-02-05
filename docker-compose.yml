@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # Database - PostgreSQL
+  db:
+    image: postgres:16-alpine
+    container_name: wealthwise-db
+    environment:
+      POSTGRES_DB: wealthwise_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - wealthwise-network
+
+  # Cache - Redis
+  redis:
+    image: redis:alpine
+    container_name: wealthwise-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - wealthwise-network
+
+  # AI Service - Python FastAPI
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: wealthwise-ai-service
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - wealthwise-network
+
+  # Backend - Java Spring Boot
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: wealthwise-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/wealthwise_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATA_REDIS_HOST=redis
+      - AI_SERVICE_URL=http://ai-service:8000
+    depends_on:
+      - db
+      - redis
+      - ai-service
+    networks:
+      - wealthwise-network
+
+  # Frontend - React/Nginx
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: wealthwise-frontend
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:5000/api/v1
+    depends_on:
+      - backend
+    networks:
+      - wealthwise-network
+
+networks:
+  wealthwise-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

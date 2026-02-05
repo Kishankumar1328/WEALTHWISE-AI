@@ -1,0 +1,11 @@
+venv
+.venv
+__pycache__
+*.pyc
+*.pyo
+.git
+.vscode
+.env
+*.log
+sft_dataset.jsonl
+Modelfile
