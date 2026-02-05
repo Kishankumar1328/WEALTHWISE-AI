@@ -1,0 +1,52 @@
+# IDEs and Tools
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.env/
+
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+
+# Node.js
+node_modules/
+dist/
+coverage/
+.next/
+out/
+build/
+
+# Gemini / Agent
+.gemini/
+.tools/

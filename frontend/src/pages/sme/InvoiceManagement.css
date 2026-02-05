@@ -1,0 +1,158 @@
+:root {
+    --horizon-navy: #0F172A;
+    --horizon-indigo: #6366F1;
+    --horizon-indigo-dark: #4338CA;
+    --horizon-success: #10B981;
+    --horizon-danger: #EF4444;
+    --horizon-warning: #F59E0B;
+}
+
+.invoice-management-v2 {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+}
+
+.invoice-header-horizon {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+}
+
+.invoice-header-horizon h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--horizon-navy);
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    margin: 0;
+}
+
+/* Control Pills */
+.invoice-tabs-horizon {
+    display: flex;
+    gap: 0.5rem;
+    background: #F1F5F9;
+    padding: 0.35rem;
+    border-radius: 20px;
+}
+
+.invoice-tab-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 16px;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #94A3B8;
+    transition: all 0.2s;
+}
+
+.invoice-tab-btn.active {
+    background: white;
+    color: var(--horizon-indigo);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* Cards */
+.invoice-card-horizon {
+    background: white;
+    border-radius: 32px;
+    padding: 2rem;
+    border: 1px solid #F1F5F9;
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    transition: all 0.3s;
+    margin-bottom: 1.5rem;
+}
+
+.invoice-card-horizon:hover {
+    transform: translateX(10px);
+    border-color: var(--horizon-indigo);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+}
+
+.invoice-type-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.invoice-type-icon.receivable {
+    background: #F0FDF4;
+    color: #16A34A;
+}
+
+.invoice-type-icon.payable {
+    background: #FEF2F2;
+    color: #DC2626;
+}
+
+.invoice-status-pill {
+    padding: 0.5rem 1.25rem;
+    border-radius: 100px;
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.invoice-status-pill.paid {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.invoice-status-pill.pending {
+    background: #F1F5F9;
+    color: #475569;
+}
+
+.invoice-status-pill.overdue {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+/* Modal Adaptation */
+.horizon-modal {
+    background: white;
+    border-radius: 40px;
+    padding: 4rem;
+    max-width: 800px;
+    width: 100%;
+}
+
+.horizon-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.horizon-input-group label {
+    font-size: 10px;
+    font-weight: 900;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.horizon-input-group input,
+.horizon-input-group select {
+    background: #F8FAFC;
+    border: 1px solid #F1F5F9;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    font-weight: 700;
+    color: var(--horizon-navy);
+    outline: none;
+}
+
+.horizon-input-group input:focus {
+    border-color: var(--horizon-indigo);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}

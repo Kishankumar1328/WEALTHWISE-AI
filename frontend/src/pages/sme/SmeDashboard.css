@@ -1,0 +1,129 @@
+:root {
+    --horizon-navy: #0F172A;
+    --horizon-indigo: #6366F1;
+    --horizon-indigo-dark: #4338CA;
+    --horizon-bg: #F8FAFC;
+    --horizon-card: #FFFFFF;
+    --horizon-border: #F1F5F9;
+    --horizon-text-main: #1E293B;
+    --horizon-text-muted: #64748B;
+}
+
+.sme-dashboard-v2 {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Reusing Horizon Card and Button logic from index.css where possible, 
+   but specific SmeDashboard tweaks below */
+
+.mini-stat-card-horizon {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: white;
+    border-radius: 32px;
+    border: 1px solid var(--horizon-border);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s;
+}
+
+.mini-stat-card-horizon:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 50px -10px rgba(99, 102, 241, 0.1);
+    border-color: var(--horizon-indigo);
+}
+
+.mini-icon-horizon {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Sme Specific Sections */
+.lending-score-card {
+    background: white;
+    padding: 3rem;
+    border-radius: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.score-display-horizon {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #FAFBFF;
+    border-radius: 50%;
+    border: 12px solid #F1F5F9;
+}
+
+.score-display-horizon::after {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    border: 12px solid var(--horizon-indigo);
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 75%);
+}
+
+.analyst-insight-card {
+    background: var(--horizon-navy);
+    color: white;
+    padding: 2.5rem;
+    border-radius: 32px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.4);
+}
+
+.analyst-insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+}
+
+.activity-item-horizon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    background: #F8FAFC;
+    border-radius: 24px;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.activity-item-horizon:hover {
+    background: white;
+    border-color: var(--horizon-border);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 1200px) {
+    .metrics-grid-main {
+        grid-template-columns: 1fr 1fr !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .metrics-grid-main {
+        grid-template-columns: 1fr !important;
+    }
+}

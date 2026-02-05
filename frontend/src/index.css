@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Horizon Theme Palettes */
+    --horizon-navy: #0F172A;
+    --horizon-indigo: #6366F1;
+    --horizon-indigo-dark: #4338CA;
+    --horizon-success: #10B981;
+    --horizon-danger: #EF4444;
+    --horizon-warning: #F59E0B;
+    --horizon-bg: #F8FAFC;
+    --horizon-card: #FFFFFF;
+    --horizon-border: #F1F5F9;
+    --horizon-text-main: #1E293B;
+    --horizon-text-muted: #64748B;
+
+    /* Semantic Aliases for Unified Design System */
+    --color-primary: var(--horizon-indigo);
+    --color-primary-dark: var(--horizon-indigo-dark);
+    --color-secondary: var(--horizon-navy);
+    --color-accent: var(--horizon-success);
+    --color-bg: var(--horizon-bg);
+    --color-surface: var(--horizon-card);
+
+    --radius-premium: 28px;
+    --shadow-premium: 0 20px 25px -5px rgb(0 0 0 / 0.05),
+      0 8px 10px -6px rgb(0 0 0 / 0.05);
+    --shadow-hover: 0 40px 60px -15px rgb(0 0 0 / 0.08);
+
+    /* Texture & Depth */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --glass-backdrop: blur(20px);
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased selection:bg-indigo-100 selection:text-indigo-900;
+  }
+}
+
+@layer components {
+  .horizon-card {
+    @apply bg-white border border-slate-100 shadow-sm transition-all duration-300;
+    border-radius: var(--radius-premium);
+  }
+
+  .horizon-card:hover {
+    @apply shadow-xl border-indigo-100;
+    transform: translateY(-4px);
+  }
+
+  .btn-primary-horizon {
+    @apply px-6 py-3 bg-indigo-600 text-white font-black rounded-2xl flex items-center gap-2 hover:bg-indigo-700 active:scale-95 transition-all shadow-lg shadow-indigo-200 uppercase tracking-widest text-[11px];
+  }
+
+  .btn-ghost-horizon {
+    @apply px-6 py-3 bg-slate-50 text-slate-600 font-black rounded-2xl flex items-center gap-2 hover:bg-slate-100 active:scale-95 transition-all uppercase tracking-widest text-[11px];
+  }
+
+  .input-horizon {
+    @apply w-full px-5 py-3 rounded-2xl border border-slate-100 bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-bold text-slate-700;
+  }
+}
+
+.gradient-text-horizon {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-indigo-400 font-black;
+}
+
+/* Unified Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-200 rounded-full hover:bg-slate-300 transition-colors;
+}

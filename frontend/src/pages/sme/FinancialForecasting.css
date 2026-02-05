@@ -1,0 +1,231 @@
+/* Financial Forecasting - Horizon UI Adaptation */
+
+.forecast-dashboard {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding-bottom: 4rem;
+}
+
+.forecast-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+    padding: 0 1rem;
+}
+
+.forecast-header h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #0F172A;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.title-group .live-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: #F8FAFC;
+    border-radius: 12px;
+    margin-top: 1rem;
+}
+
+.sync-dot {
+    width: 8px;
+    height: 8px;
+    background: #10B981;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.live-status .text {
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: #64748B;
+    letter-spacing: 0.15em;
+}
+
+/* Horizon Controls */
+.horizon-picker {
+    display: flex;
+    background: #F1F5F9;
+    padding: 0.25rem;
+    border-radius: 20px;
+}
+
+.horizon-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #64748B;
+    transition: all 0.2s;
+}
+
+.horizon-btn.active {
+    background: white;
+    color: #6366F1;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.btn-refresh {
+    background: #6366F1;
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 20px;
+    font-weight: 900;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.4);
+}
+
+.btn-refresh .spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Metrics */
+.forecast-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 0 1rem;
+    margin-bottom: 3rem;
+}
+
+.metric-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 32px;
+    border: 1px solid #F1F5F9;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    transition: all 0.3s;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.05);
+    border-color: #6366F1;
+}
+
+.metric-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.metric-info .label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+.metric-info .value {
+    font-size: 2.25rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin: 0.25rem 0;
+}
+
+.metric-info .trend {
+    font-size: 0.65rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Charts */
+.forecast-grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 2rem;
+    padding: 0 1rem;
+}
+
+.chart-container {
+    background: white;
+    padding: 3rem;
+    border-radius: 40px;
+    border: 1px solid #F1F5F9;
+}
+
+.chart-container.large {
+    grid-column: span 1;
+}
+
+.chart-header h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1E293B;
+    margin-bottom: 2.5rem;
+}
+
+/* Tooltip Custom */
+.custom-forecast-tooltip {
+    background: #0F172A;
+    color: white;
+    padding: 1.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.custom-forecast-tooltip .date {
+    font-weight: 900;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    color: #94A3B8;
+}
+
+/* Seasonal Detector */
+.seasonal-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.seasonal-item {
+    background: #F8FAFC;
+    padding: 1.5rem;
+    border-radius: 20px;
+}
+
+.bar-container {
+    height: 8px;
+    background: #E2E8F0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0.75rem 0;
+}
+
+.bar-fill {
+    height: 100%;
+    background: #6366F1;
+}
+
+@media (max-width: 1200px) {
+    .forecast-grid {
+        grid-template-columns: 1fr;
+    }
+}
