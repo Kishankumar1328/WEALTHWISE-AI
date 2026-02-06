@@ -40,4 +40,9 @@ public class PaymentController {
             return ResponseEntity.badRequest().body("Error verifying payment: " + e.getMessage());
         }
     }
+
+    @GetMapping("/transactions")
+    public ResponseEntity<?> getTransactions() {
+        return ResponseEntity.ok(razorpayService.getAllTransactions());
+    }
 }

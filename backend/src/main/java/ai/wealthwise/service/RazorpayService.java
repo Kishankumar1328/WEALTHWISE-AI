@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -90,5 +91,11 @@ public class RazorpayService {
         paymentTransactionRepository.save(transaction);
 
         return isValid;
+    }
+
+    @Transactional(readOnly = true)
+    public List<PaymentTransaction> getAllTransactions() {
+        return paymentTransactionRepository.findAll(org.springframework.data.domain.Sort
+                .by(org.springframework.data.domain.Sort.Direction.DESC, "createdAt"));
     }
 }

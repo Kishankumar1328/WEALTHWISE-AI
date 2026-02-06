@@ -15,6 +15,7 @@ const AiAdvisorPage = lazy(() => import('./pages/advisor/AiAdvisorPage'));
 const ExpensesPage = lazy(() => import('./pages/expenses/ExpensesPage'));
 const BudgetsPage = lazy(() => import('./pages/budgets/BudgetsPage'));
 const GoalsPage = lazy(() => import('./pages/goals/GoalsPage'));
+const TransactionHistoryPage = lazy(() => import('./pages/transactions/TransactionHistoryPage'));
 
 // SME Pages
 import SmeDashboard from './pages/sme/SmeDashboard';
@@ -80,6 +81,9 @@ function App() {
                         } />
                         <Route path="/goals" element={
                             <DashboardLayout><GoalsPage /></DashboardLayout>
+                        } />
+                        <Route path="/transactions" element={
+                            <DashboardLayout><TransactionHistoryPage /></DashboardLayout>
                         } />
                         <Route path="/advisor" element={
                             <DashboardLayout><AiAdvisorPage /></DashboardLayout>
