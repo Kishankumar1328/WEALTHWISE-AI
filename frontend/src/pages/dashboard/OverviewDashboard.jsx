@@ -11,6 +11,9 @@ import {
 } from 'lucide-react';
 import { dashboardApi, aiApi } from '../../api/api';
 import { format } from 'date-fns';
+import { PieChart as RechartsPieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+
+const COLORS = ['#4318FF', '#2B3674', '#05CD99', '#FFB547', '#E31A1A'];
 import SmartStatCard from '../../components/dashboard/SmartStatCard';
 
 const OverviewDashboard = () => {
@@ -127,11 +130,27 @@ const OverviewDashboard = () => {
                         </div>
                     </div>
 
-                    <div className="h-[400px] w-full bg-[#f8faff]/50 rounded-[24px] border border-dashed border-slate-200 flex items-center justify-center">
-                        <div className="flex flex-col items-center gap-4 text-slate-300">
-                            <PieChart size={64} className="animate-pulse" />
-                            <span className="font-black text-xs uppercase tracking-[0.3em]">Processing Render...</span>
-                        </div>
+
+
+                    <div className="h-[400px] w-full bg-[#f8faff]/50 rounded-[24px] border border-slate-50 flex items-center justify-center p-4">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <RechartsPieChart>
+                                <Pie
+                                    data={summary?.categoryBreakdown?.length > 0 ? summary.categoryBreakdown : [{ name: 'No Data', amount: 100, color: '#e2e8f0' }]}
+                                    innerRadius={80}
+                                    outerRadius={120}
+                                    paddingAngle={5}
+                                    dataKey="amount"
+                                    nameKey="name"
+                                >
+                                    {(summary?.categoryBreakdown || [{ color: '#e2e8f0' }]).map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.color || COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip formatter={(value) => `₹${Number(value).toLocaleString()}`} />
+                                <Legend verticalAlign="bottom" height={36} />
+                            </RechartsPieChart>
+                        </ResponsiveContainer>
                     </div>
 
                     <div className="mt-8 grid grid-cols-3 gap-6">

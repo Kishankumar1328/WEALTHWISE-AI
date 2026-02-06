@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -11,6 +11,8 @@ import {
 } from 'lucide-react';
 import { smeBusinessApi, smeAnalysisApi, smeInvoiceApi } from '../../api/api';
 import './SmeDashboard.css';
+
+import BusinessRegistration from './BusinessRegistration';
 
 const SmeDashboard = () => {
     const { t } = useTranslation();
@@ -72,12 +74,18 @@ const SmeDashboard = () => {
         }).format(amount || 0);
     };
 
+    // Show loading state
     if (loadingBusinesses) return (
         <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
             <RefreshCw className="animate-spin text-indigo-600" size={40} />
             <p className="font-black text-slate-400 uppercase tracking-widest text-xs">Syncing Business Core...</p>
         </div>
     );
+
+    // Redirect to Registration if no businesses
+    if (!loadingBusinesses && businesses.length === 0) {
+        return <Navigate to="/sme/register-business" replace />;
+    }
 
     const containerVariants = {
         hidden: { opacity: 0, y: 10 },
@@ -114,6 +122,14 @@ const SmeDashboard = () => {
                 </div>
 
                 <div className="flex items-center gap-4">
+                    <button
+                        onClick={() => navigate('/sme/register-business')}
+                        className="p-3 bg-white rounded-2xl shadow-sm text-slate-400 hover:text-indigo-600 border border-slate-50 transition-all"
+                        title="Edit Business Profile"
+                    >
+                        <Briefcase size={24} />
+                    </button>
+
                     <div className="horizon-card px-2 py-1 flex items-center bg-white shadow-xl shadow-slate-100">
                         <select
                             className="bg-transparent px-6 py-3 font-black text-slate-700 outline-none border-none min-w-[220px]"

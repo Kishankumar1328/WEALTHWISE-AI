@@ -75,7 +75,8 @@ const PaymentButton = ({ amount, description = "WealthWise Premium Subscription"
 
         } catch (err) {
             console.error("Payment Error", err);
-            alert("Something went wrong while initiating payment");
+            const errorMessage = err.response?.data || err.message || "Something went wrong while initiating payment";
+            alert(`Payment Initialization Failed: ${errorMessage}`);
             if (onError) onError(err);
         } finally {
             setLoading(false);

@@ -6,7 +6,7 @@ import {
     LayoutDashboard, Receipt, Wallet, Target, Sparkles,
     Settings, LogOut, Menu, X, Bell, Search, ChevronRight,
     Building2, FileText, Shield, TrendingUp,
-    Zap, Activity, Command, HelpCircle, Moon, Sun
+    Zap, Activity, Command, HelpCircle, Moon, Sun, CreditCard
 } from 'lucide-react';
 
 import LanguageSwitcher from '../common/LanguageSwitcher';
@@ -23,6 +23,7 @@ const DashboardLayout = ({ children }) => {
         { icon: <Wallet size={22} />, label: t('common.budgets'), path: '/budgets' },
         { icon: <Target size={22} />, label: t('common.financial_goals') || 'Financial Goals', path: '/goals' },
         { icon: <Receipt size={22} />, label: 'Transaction History', path: '/transactions' },
+        { icon: <CreditCard size={22} />, label: 'Razorpay Payments', path: '/payments' },
         { icon: <Sparkles size={22} />, label: t('common.advisor'), path: '/advisor' },
     ];
 

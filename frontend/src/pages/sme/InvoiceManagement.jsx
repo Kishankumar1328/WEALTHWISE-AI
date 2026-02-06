@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -43,26 +43,34 @@ const InvoiceManagement = () => {
     }, [businesses, selectedBusiness]);
 
     const { data: invoices = [], isLoading } = useQuery({
-        queryKey: ['sme-invoices', selectedBusiness?.id, activeTab],
+        queryKey: ['sme-invoices', selectedBusiness?.id],
         queryFn: async () => {
             if (!selectedBusiness?.id) return [];
-            let response;
-            if (activeTab === 'receivables') response = await smeInvoiceApi.getReceivables(selectedBusiness.id);
-            else if (activeTab === 'payables') response = await smeInvoiceApi.getPayables(selectedBusiness.id);
-            else if (activeTab === 'overdue') response = await smeInvoiceApi.getOverdue(selectedBusiness.id);
-            else response = await smeInvoiceApi.getAll(selectedBusiness.id);
+            const response = await smeInvoiceApi.getAll(selectedBusiness.id);
             return response.data;
         },
         enabled: !!selectedBusiness?.id,
         refetchInterval: 30000
     });
 
-    const { data: summary } = useQuery({
-        queryKey: ['sme-invoice-summary', selectedBusiness?.id],
-        queryFn: () => smeInvoiceApi.getSummary(selectedBusiness.id).then(res => res.data),
-        enabled: !!selectedBusiness?.id,
-        refetchInterval: 30000
-    });
+    // Client-side Summary Calculation
+    const summary = useMemo(() => {
+        return invoices.reduce((acc, inv) => {
+            const isSettled = inv.status === 'PAID' || inv.status === 'CANCELLED';
+            const outstanding = isSettled ? 0 : (parseFloat(inv.totalAmount) - (parseFloat(inv.paidAmount) || 0));
+
+            // Check Overdue (Client-side check for accuracy)
+            const isOverdue = !isSettled && new Date(inv.dueDate) < new Date();
+
+            if (inv.invoiceType === 'RECEIVABLE' && !isSettled) {
+                acc.totalReceivables += outstanding;
+                if (isOverdue || inv.status === 'OVERDUE') acc.overdueReceivables += outstanding;
+            } else if (inv.invoiceType === 'PAYABLE' && !isSettled) {
+                acc.totalPayables += outstanding;
+            }
+            return acc;
+        }, { totalReceivables: 0, totalPayables: 0, overdueReceivables: 0 });
+    }, [invoices]);
 
     const createInvoiceMutation = useMutation({
         mutationFn: (data) => smeInvoiceApi.create(selectedBusiness.id, data),
@@ -130,10 +138,23 @@ const InvoiceManagement = () => {
         return badges[status] || badges.PENDING;
     };
 
-    const filteredInvoices = invoices.filter(inv =>
-        (inv.partyName || inv.clientName || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (inv.invoiceNumber || '').toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredInvoices = useMemo(() => {
+        let filtered = invoices;
+
+        // Tab Filtering
+        if (activeTab === 'receivables') filtered = filtered.filter(i => i.invoiceType === 'RECEIVABLE');
+        else if (activeTab === 'payables') filtered = filtered.filter(i => i.invoiceType === 'PAYABLE');
+        else if (activeTab === 'overdue') filtered = filtered.filter(i => {
+            const isSettled = i.status === 'PAID' || i.status === 'CANCELLED';
+            return !isSettled && (i.status === 'OVERDUE' || new Date(i.dueDate) < new Date());
+        });
+
+        // Search Filtering
+        return filtered.filter(inv =>
+            (inv.partyName || inv.clientName || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (inv.invoiceNumber || '').toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [invoices, activeTab, searchQuery]);
 
     const containerVariants = {
         hidden: { opacity: 0, y: 10 },

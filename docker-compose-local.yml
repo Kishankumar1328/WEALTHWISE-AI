@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # 1. Database - Local PostgreSQL
+  db:
+    image: postgres:16-alpine
+    container_name: wealthwise-local-db
+    environment:
+      POSTGRES_DB: wealthwise_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_local_data:/var/lib/postgresql/data
+    networks:
+      - wealthwise-local-net
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Cache - Local Redis
+  redis:
+    image: redis:alpine
+    container_name: wealthwise-local-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - wealthwise-local-net
+
+  # 3. Backend - Builds from source
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: wealthwise-local-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/wealthwise_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_CACHE_TYPE=redis
+      # Razorpay Keys
+      - RAZORPAY_KEY_ID=rzp_test_SClOLR2beT6kWl
+      - RAZORPAY_KEY_SECRET=VQGNWdwYpn2V8Nkee220XRAS
+      # CORS
+      - CORS_ALLOWED_ORIGINS=http://localhost:3000
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - wealthwise-local-net
+
+  # 4. Frontend - Builds from source
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: wealthwise-local-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - wealthwise-local-net
+
+networks:
+  wealthwise-local-net:
+    driver: bridge
+
+volumes:
+  postgres_local_data:
