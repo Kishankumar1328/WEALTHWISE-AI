@@ -38,23 +38,34 @@ CREATE TABLE expenses (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- 3. Budgets Table
+-- 3. Budgets Table (Main Budget Plans)
 CREATE TABLE budgets (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-    category VARCHAR(50) NOT NULL,
-    budget_amount DECIMAL(12, 2) NOT NULL,
-    spent_amount DECIMAL(12, 2) DEFAULT 0,
+    name VARCHAR(100) NOT NULL,
+    month INTEGER NOT NULL,
+    year INTEGER NOT NULL,
+    total_budget_amount DECIMAL(12, 2) NOT NULL,
     period VARCHAR(20) NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     is_active BOOLEAN DEFAULT true,
-    is_ai_suggested BOOLEAN DEFAULT false,
-    alert_threshold DECIMAL(3, 2) DEFAULT 0.80,
-    alert_sent BOOLEAN DEFAULT false,
     notes TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, month, year, is_active)
+);
+
+-- 3a. Budget Categories Table (Category-wise Budget Breakdown)
+CREATE TABLE budget_categories (
+    id SERIAL PRIMARY KEY,
+    budget_id INTEGER REFERENCES budgets(id) ON DELETE CASCADE NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    budget_amount DECIMAL(12, 2) NOT NULL,
+    spent_amount DECIMAL(12, 2) DEFAULT 0,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(budget_id, category)
 );
 
 -- 4. Financial Goals Table
@@ -80,5 +91,7 @@ CREATE TABLE financial_goals (
 -- Indices for Performance
 CREATE INDEX idx_user_email ON users(email);
 CREATE INDEX idx_expense_user_date ON expenses(user_id, transaction_date);
+CREATE INDEX idx_budget_user_period ON budgets(user_id, start_date, end_date);
 CREATE INDEX idx_budget_user_active ON budgets(user_id, is_active);
+CREATE INDEX idx_budget_category_budget ON budget_categories(budget_id);
 CREATE INDEX idx_goals_user_status ON financial_goals(user_id, status);

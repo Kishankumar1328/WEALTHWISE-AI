@@ -15,13 +15,18 @@ VALUES
 (1, 2500.00, 'SHOPPING', 'Amaanon Order', CURRENT_DATE - INTERVAL '3 days', 'CREDIT_CARD', 'Amazon', CURRENT_TIMESTAMP),
 (1, 800.00, 'UTILITIES', 'Electricity Bill', CURRENT_DATE - INTERVAL '4 days', 'UPI', 'BESCOM', CURRENT_TIMESTAMP);
 
--- 3. Insert Sample Budgets
-INSERT INTO budgets (user_id, category, budget_amount, spent_amount, period, start_date, end_date, created_at)
+-- 3. Insert Sample Budget Plans
+INSERT INTO budgets (user_id, name, month, year, total_budget_amount, period, start_date, end_date, is_active, created_at, updated_at)
 VALUES 
-(1, 'FOOD_DINING', 10000.00, 4500.00, 'MONTHLY', date_trunc('month', CURRENT_DATE), (date_trunc('month', CURRENT_DATE) + interval '1 month - 1 day'), CURRENT_TIMESTAMP),
-(1, 'TRANSPORTATION', 5000.00, 2200.00, 'MONTHLY', date_trunc('month', CURRENT_DATE), (date_trunc('month', CURRENT_DATE) + interval '1 month - 1 day'), CURRENT_TIMESTAMP);
+(1, 'Monthly Budget', EXTRACT(MONTH FROM CURRENT_DATE)::integer, EXTRACT(YEAR FROM CURRENT_DATE)::integer, 50000.00, 'MONTHLY', date_trunc('month', CURRENT_DATE)::date, (date_trunc('month', CURRENT_DATE) + interval '1 month - 1 day')::date, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
--- 4. Insert Sample Goals
+-- 4. Insert Sample Budget Categories
+INSERT INTO budget_categories (budget_id, category, budget_amount, spent_amount, created_at, updated_at)
+VALUES 
+(1, 'FOOD_DINING', 10000.00, 4500.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(1, 'TRANSPORTATION', 5000.00, 2200.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 5. Insert Sample Goals
 INSERT INTO financial_goals (user_id, title, goal_type, target_amount, current_amount, target_date, priority, created_at)
 VALUES 
 (1, 'Buy a House', 'HOME_PURCHASE', 5000000.00, 1500000.00, '2028-12-31', 'HIGH', CURRENT_TIMESTAMP),
