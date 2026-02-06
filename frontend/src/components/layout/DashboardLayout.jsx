@@ -22,6 +22,7 @@ const DashboardLayout = ({ children }) => {
         { icon: <Receipt size={22} />, label: t('common.expenses'), path: '/expenses' },
         { icon: <Wallet size={22} />, label: t('common.budgets'), path: '/budgets' },
         { icon: <Target size={22} />, label: t('common.financial_goals') || 'Financial Goals', path: '/goals' },
+        { icon: <Receipt size={22} />, label: 'Transaction History', path: '/transactions' },
         { icon: <Sparkles size={22} />, label: t('common.advisor'), path: '/advisor' },
     ];
 
